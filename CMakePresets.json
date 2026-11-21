@@ -1,0 +1,107 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    },
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "description": "-g3 -O0, for development and gdb",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "asan",
+      "displayName": "Debug + Sanitizers",
+      "description": "Debug + AddressSanitizer/UBSan for memory bugs",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ENABLE_SANITIZERS": "ON"
+      }
+    },
+    {
+      "name": "release",
+      "displayName": "Release",
+      "description": "-O2, for experiment measurements",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "debug",
+      "displayName": "All (Debug)",
+      "configurePreset": "debug"
+    },
+    {
+      "name": "debug-sender",
+      "displayName": "Sender (Debug)",
+      "configurePreset": "debug",
+      "targets": [
+        "sender"
+      ]
+    },
+    {
+      "name": "debug-receiver",
+      "displayName": "Receiver (Debug)",
+      "configurePreset": "debug",
+      "targets": [
+        "receiver"
+      ]
+    },
+    {
+      "name": "debug-emulator",
+      "displayName": "Emulator (Debug)",
+      "configurePreset": "debug",
+      "targets": [
+        "emulator"
+      ]
+    },
+    {
+      "name": "asan",
+      "displayName": "All (Debug + Sanitizers)",
+      "configurePreset": "asan"
+    },
+    {
+      "name": "release",
+      "displayName": "All (Release)",
+      "configurePreset": "release"
+    },
+    {
+      "name": "release-sender",
+      "displayName": "Sender (Release)",
+      "configurePreset": "release",
+      "targets": [
+        "sender"
+      ]
+    },
+    {
+      "name": "release-receiver",
+      "displayName": "Receiver (Release)",
+      "configurePreset": "release",
+      "targets": [
+        "receiver"
+      ]
+    },
+    {
+      "name": "release-emulator",
+      "displayName": "Emulator (Release)",
+      "configurePreset": "release",
+      "targets": [
+        "emulator"
+      ]
+    }
+  ]
+}

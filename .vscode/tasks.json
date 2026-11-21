@@ -1,0 +1,179 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Configure (Debug)",
+      "type": "shell",
+      "command": "cmake --preset debug",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build: All (Debug)",
+      "type": "shell",
+      "command": "cmake --build --preset debug",
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "dependsOn": "Configure (Debug)",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Build: Sender (Debug)",
+      "type": "shell",
+      "command": "cmake --build --preset debug-sender",
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "dependsOn": "Configure (Debug)",
+      "group": "build"
+    },
+    {
+      "label": "Build: Receiver (Debug)",
+      "type": "shell",
+      "command": "cmake --build --preset debug-receiver",
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "dependsOn": "Configure (Debug)",
+      "group": "build"
+    },
+    {
+      "label": "Build: Emulator (Debug)",
+      "type": "shell",
+      "command": "cmake --build --preset debug-emulator",
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "dependsOn": "Configure (Debug)",
+      "group": "build"
+    },
+    {
+      "label": "Configure (Debug + Sanitizers)",
+      "type": "shell",
+      "command": "cmake --preset asan",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build: All (Debug + Sanitizers)",
+      "type": "shell",
+      "command": "cmake --build --preset asan",
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "dependsOn": "Configure (Debug + Sanitizers)",
+      "group": "build"
+    },
+    {
+      "label": "Configure (Release)",
+      "type": "shell",
+      "command": "cmake --preset release",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build: All (Release)",
+      "type": "shell",
+      "command": "cmake --build --preset release",
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "dependsOn": "Configure (Release)",
+      "group": "build"
+    },
+    {
+      "label": "Build: Sender (Release)",
+      "type": "shell",
+      "command": "cmake --build --preset release-sender",
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "dependsOn": "Configure (Release)",
+      "group": "build"
+    },
+    {
+      "label": "Build: Receiver (Release)",
+      "type": "shell",
+      "command": "cmake --build --preset release-receiver",
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "dependsOn": "Configure (Release)",
+      "group": "build"
+    },
+    {
+      "label": "Build: Emulator (Release)",
+      "type": "shell",
+      "command": "cmake --build --preset release-emulator",
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "dependsOn": "Configure (Release)",
+      "group": "build"
+    },
+    {
+      "label": "Prepare: Run Directories + Test File",
+      "type": "shell",
+      "command": "mkdir -p logs out testdata && [ -f testdata/input.bin ] || head -c 262144 /dev/urandom > testdata/input.bin",
+      "problemMatcher": []
+    },
+    {
+      "label": "Prepare Debug: Sender",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Build: Sender (Debug)",
+        "Prepare: Run Directories + Test File"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Prepare Debug: Receiver",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Build: Receiver (Debug)",
+        "Prepare: Run Directories + Test File"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Prepare Debug: Emulator",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Build: Emulator (Debug)",
+        "Prepare: Run Directories + Test File"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Prepare Debug: All",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Build: All (Debug)",
+        "Prepare: Run Directories + Test File"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Prepare Debug: All (Sanitizers)",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Build: All (Debug + Sanitizers)",
+        "Prepare: Run Directories + Test File"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Verify: SHA-256 (Input vs Received)",
+      "type": "shell",
+      "command": "sha256sum testdata/input.bin out/received.bin",
+      "problemMatcher": []
+    },
+    {
+      "label": "Clean: Build Directory",
+      "type": "shell",
+      "command": "rm -rf build",
+      "problemMatcher": []
+    }
+  ]
+}
